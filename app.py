@@ -4,7 +4,8 @@ import random
 import os
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-# import subprocess
+from  utils import upload_excel_to_dropbox
+from  utils import download_excel_from_dropbox
 
 # Configuration
 st.set_page_config(page_title="Haiku Chain", layout="wide", initial_sidebar_state="collapsed")
@@ -32,6 +33,11 @@ def init_excel():
         pd.DataFrame(columns=[
             'chain_id', 'line_number', 'text', 'user', 'thumbnail', 'rule'
         ]).to_excel(EXCEL_FILE, index=False)
+    if upload_excel_to_dropbox():
+        print("Upload successful.")
+    else:
+        print("Upload failed.")
+   
 
 def load_chains():
     """Load chains from Excel into session state"""
@@ -73,37 +79,11 @@ def save_chain(chain):
     
     updated_df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
     updated_df.to_excel(EXCEL_FILE, index=False)
-#     update_github_repo()  # Push the updated Excel file to GitHub
-
-# # --- GitHub Update Function ---
-# def update_github_repo():
-#     """
-#     Stage, commit, and push the Excel file to GitHub.
-#     Ensure that Git is configured with proper credentials in your environment.
-#     """
-#     try:
-#         # Stage the file
-#         result = subprocess.run(["git", "add", EXCEL_FILE], capture_output=True, text=True)
-#         if result.returncode != 0:
-#             st.error(f"Git add failed: {result.stderr}")
-#             return
-
-#         # Commit the changes (if there are any)
-#         commit_message = "Update haiku chains data"
-#         result = subprocess.run(["git", "commit", "-m", commit_message], capture_output=True, text=True)
-#         # If nothing to commit, result.stderr might include "nothing to commit"
-#         if result.returncode != 0 and "nothing to commit" not in result.stderr:
-#             st.error(f"Git commit failed: {result.stderr}")
-#             return
-
-#         # Push the changes
-#         result = subprocess.run(["git", "push"], capture_output=True, text=True)
-#         if result.returncode != 0:
-#             st.error(f"Git push failed: {result.stderr}")
-#         else:
-#             st.success("Excel file updated in GitHub repo!")
-#     except Exception as e:
-#         st.error(f"Error during Git operations: {e}")
+    if upload_excel_to_dropbox():
+        print("Upload successful.")
+    else:
+        print("Upload failed.")
+   
 
 # Rule Generation Functions
 def generate_chain_rule(chain):
@@ -252,6 +232,10 @@ def chain_view():
         st.info("You can't add consecutive lines. Let others contribute!")
 
 # Main App Flow
+if download_excel_from_dropbox():
+    print("Download successful.")
+else:
+    print("No file found; please initialize a new Excel file.")
 load_chains()  # Initial load from Excel
 username_gate()
 
