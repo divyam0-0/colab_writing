@@ -131,6 +131,7 @@ def username_gate():
 def main_view():
     """Display all haiku chains"""
     st.title("Collaborative Haiku Chains")
+    st.write('You have 150 words each max 15 charachter long. Enjow creating weird poems,fun conversations and free space.\n Last two writers cannot wtite new line to chain but you can always start a new one. \n HAPPY WRITING!!!')
     
     # Start new chain section
     with st.expander("Start New Chain", expanded=False):
