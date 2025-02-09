@@ -4,7 +4,7 @@ import random
 import os
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-import subprocess
+# import subprocess
 
 # Configuration
 st.set_page_config(page_title="Haiku Chain", layout="wide", initial_sidebar_state="collapsed")
@@ -73,37 +73,37 @@ def save_chain(chain):
     
     updated_df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
     updated_df.to_excel(EXCEL_FILE, index=False)
-    update_github_repo()  # Push the updated Excel file to GitHub
+#     update_github_repo()  # Push the updated Excel file to GitHub
 
-# --- GitHub Update Function ---
-def update_github_repo():
-    """
-    Stage, commit, and push the Excel file to GitHub.
-    Ensure that Git is configured with proper credentials in your environment.
-    """
-    try:
-        # Stage the file
-        result = subprocess.run(["git", "add", EXCEL_FILE], capture_output=True, text=True)
-        if result.returncode != 0:
-            st.error(f"Git add failed: {result.stderr}")
-            return
+# # --- GitHub Update Function ---
+# def update_github_repo():
+#     """
+#     Stage, commit, and push the Excel file to GitHub.
+#     Ensure that Git is configured with proper credentials in your environment.
+#     """
+#     try:
+#         # Stage the file
+#         result = subprocess.run(["git", "add", EXCEL_FILE], capture_output=True, text=True)
+#         if result.returncode != 0:
+#             st.error(f"Git add failed: {result.stderr}")
+#             return
 
-        # Commit the changes (if there are any)
-        commit_message = "Update haiku chains data"
-        result = subprocess.run(["git", "commit", "-m", commit_message], capture_output=True, text=True)
-        # If nothing to commit, result.stderr might include "nothing to commit"
-        if result.returncode != 0 and "nothing to commit" not in result.stderr:
-            st.error(f"Git commit failed: {result.stderr}")
-            return
+#         # Commit the changes (if there are any)
+#         commit_message = "Update haiku chains data"
+#         result = subprocess.run(["git", "commit", "-m", commit_message], capture_output=True, text=True)
+#         # If nothing to commit, result.stderr might include "nothing to commit"
+#         if result.returncode != 0 and "nothing to commit" not in result.stderr:
+#             st.error(f"Git commit failed: {result.stderr}")
+#             return
 
-        # Push the changes
-        result = subprocess.run(["git", "push"], capture_output=True, text=True)
-        if result.returncode != 0:
-            st.error(f"Git push failed: {result.stderr}")
-        else:
-            st.success("Excel file updated in GitHub repo!")
-    except Exception as e:
-        st.error(f"Error during Git operations: {e}")
+#         # Push the changes
+#         result = subprocess.run(["git", "push"], capture_output=True, text=True)
+#         if result.returncode != 0:
+#             st.error(f"Git push failed: {result.stderr}")
+#         else:
+#             st.success("Excel file updated in GitHub repo!")
+#     except Exception as e:
+#         st.error(f"Error during Git operations: {e}")
 
 # Rule Generation Functions
 def generate_chain_rule(chain):
