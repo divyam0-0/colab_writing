@@ -143,7 +143,9 @@ def username_gate():
 def main_view():
     """Display all haiku chains"""
     st.title("Collaborative Haiku Chains")
-    st.write('You have 150 words each max 15 charachter long. Enjow creating weird poems,fun conversations and free space.\n Last two writers cannot wtite new line to chain but you can always start a new one. \n HAPPY WRITING!!!')
+    st.write(f"""Welcome to your wild word playground! You’re given exactly 150 words—each one capped at 15 characters. Let your imagination run wild: craft delightfully weird poems, spark quirky conversations, and carve out your own free space for creative chaos. Remember, the last two scribes in the chain are locked into one continuous line (no fresh starts for them), but don’t fret—you can always kick off a brand-new chain whenever inspiration strikes.
+
+So, mix humor with the unexpected, push the boundaries of language, and let every word sparkle with personality. Embrace the absurd, the brief, and the brilliant. Get creative and—most importantly—HAPPY WRITING!!!""")
     if download_excel_from_dropbox():
         print("Download successful.")
     else:
