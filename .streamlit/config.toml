@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#5C8374"  # Muted green for trust and calm
+backgroundColor = "#F1F6F4"  # Soft off-white for a relaxing feel
+secondaryBackgroundColor = "#C8D5B9"  # Gentle sage green for subtle contrast
+textColor = "#2C3E50"  # Deep blue-gray for a professional and trustworthy tone
+font = "monospace"
