@@ -9,7 +9,7 @@ from  utils import download_excel_from_dropbox
 
 # Configuration
 st.set_page_config(page_title="Haiku Chain", layout="wide", initial_sidebar_state="collapsed")
-EXCEL_FILE = "haiku_chains.xlsx"
+EXCEL_FILE = "haiku_chain.xlsx"
 
 # Initialize Groq LLM
 llm = ChatGroq(temperature=0, 
@@ -33,10 +33,10 @@ def init_excel():
         pd.DataFrame(columns=[
             'chain_id', 'line_number', 'text', 'user', 'thumbnail', 'rule'
         ]).to_excel(EXCEL_FILE, index=False)
-    if upload_excel_to_dropbox():
-        print("Upload successful.")
-    else:
-        print("Upload failed.")
+        if upload_excel_to_dropbox():
+            print("Upload successful.")
+        else:
+            print("Upload failed.")
    
 
 def load_chains():
@@ -144,7 +144,11 @@ def main_view():
     """Display all haiku chains"""
     st.title("Collaborative Haiku Chains")
     st.write('You have 150 words each max 15 charachter long. Enjow creating weird poems,fun conversations and free space.\n Last two writers cannot wtite new line to chain but you can always start a new one. \n HAPPY WRITING!!!')
-    
+    if download_excel_from_dropbox():
+        print("Download successful.")
+    else:
+        print("No file found; please initialize a new Excel file.")
+
     # Start new chain section
     with st.expander("Start New Chain", expanded=False):
         new_line = st.text_input("First line of new chain:", key="new_chain_input")
@@ -231,16 +235,18 @@ def chain_view():
     else:
         st.info("You can't add consecutive lines. Let others contribute!")
 
-# Main App Flow
-if download_excel_from_dropbox():
-    print("Download successful.")
-else:
-    print("No file found; please initialize a new Excel file.")
+# # Main App Flow
+# if download_excel_from_dropbox():
+#     print("Download successful.")
+# else:
+#     print("No file found; please initialize a new Excel file.")
 load_chains()  # Initial load from Excel
 username_gate()
 
 if not st.session_state.username:
     st.stop()
+
+
 
 if st.session_state.viewing_chain is not None:
     chain_view()
